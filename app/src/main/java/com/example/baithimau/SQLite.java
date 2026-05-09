@@ -28,6 +28,14 @@ public class SQLite extends SQLiteOpenHelper{
                 COL_Name + " TEXT, " +
                 COL_PhoneNumber + " TEXT)";
         db.execSQL(sql);
+
+        for (int i = 1; i < 7; i++) {
+            Contract contract = new Contract();
+            contract.setId(i);
+            contract.setName("Nguyễn Văn " + ('A' + i));
+            contract.setPhoneNumber("098689925 "+ i);
+            insert(contract);
+        }
     }
 
     @Override
