@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BaiThiMau">
         <activity
+            android:name=".InputForm"
+            android:exported="false"
+            android:label="@string/title_activity_input_form"
+            android:theme="@style/Theme.BaiThiMau" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.BaiThiMau">

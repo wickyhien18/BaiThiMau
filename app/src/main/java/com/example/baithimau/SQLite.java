@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class SQLite extends SQLiteOpenHelper{
     public static final String DbName = "SqlLite";
-    public static final int DBVersion = 1;
+    public static final int DBVersion = 2;
     public static final String TABLE_NAME = "Contract";
     public static final String COL_ID = "Id";
     public static final String COL_Name = "Name";
@@ -30,11 +30,10 @@ public class SQLite extends SQLiteOpenHelper{
         db.execSQL(sql);
 
         for (int i = 1; i < 7; i++) {
-            Contract contract = new Contract();
-            contract.setId(i);
-            contract.setName("Nguyễn Văn " + ('A' + i));
-            contract.setPhoneNumber("098689925 "+ i);
-            insert(contract);
+            ContentValues contract = new ContentValues();
+            contract.put(COL_Name, "Nguyễn Văn " + Character.toString('A' + i));
+            contract.put(COL_PhoneNumber, "098689925"+ i);
+            db.insert(TABLE_NAME, null, contract);
         }
     }
 
@@ -74,6 +73,7 @@ public class SQLite extends SQLiteOpenHelper{
         db.close();
         return result;
     }
+
 
     public long update(Contract contract) {
         SQLiteDatabase db = this.getWritableDatabase();
