@@ -1,6 +1,8 @@
 package com.example.baithimau;
 
-public class Contract {
+import java.io.Serializable;
+
+public class Contract implements Serializable {
 
     private Integer Id;
     private String Name;
