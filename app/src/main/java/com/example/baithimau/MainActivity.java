@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
                 if (newContract != null) {
                     db.insert(newContract);
                     contractDB.add(newContract);
-                    
-                    updateContractList();
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -64,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         db.insert(new Contract(4, "Nguyen Van C", "09112313"));
         db.insert(new Contract(5, "Nguyen Van DE", "091678678"));
         db.insert(new Contract(6, "Nguyen Van EE", "09135435"));
+        contractDB.addAll(db.getAll());
+        adapter.notifyDataSetChanged();
     }
 
     private void Init() {
@@ -72,31 +72,13 @@ public class MainActivity extends AppCompatActivity {
         adapter = new Adapter(this, android.R.layout.simple_list_item_1, new ArrayList<>());
         listView = findViewById(R.id.contractList);
         listView.setAdapter(adapter);
-        contractDB = db.getAll();
-        updateContractList();
     }
 
-    private void updateContractList() {
-        contractList.clear();
-        for (Contract contract : contractDB) {
-            if (contract != null)
-                contractList.add(contract.toString());
-        }
-
-        contractList.sort((s1,s2) -> {
-            String[] arr1 = s1.split(" - ")[1].split(" ");
-            String[] arr2 = s2.split(" - ")[1].split(" ");
-            return arr1[arr1.length - 1].compareTo(arr2[arr2.length - 1]);
-        });
-    }
 
     private void Listen() {
         add.setOnClickListener(v -> {
             Intent intent = new Intent(this, InputForm.class);
             contractPicker.launch(intent);
         });
-
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contractList);
-        listView.setAdapter(adapter);
     }
 }
