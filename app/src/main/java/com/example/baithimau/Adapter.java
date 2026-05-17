@@ -20,17 +20,29 @@ public class Adapter extends ArrayAdapter<Contract> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
+        // Reuse view if possible for better performance
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
+        }
+
         Contract contract = getItem(position);
 
         if (contract != null) {
-            TextView textViewId = view.findViewById(R.id.textViewId);
-            TextView textViewName = view.findViewById(R.id.textViewName);
-            TextView textViewPhone = view.findViewById(R.id.textViewPhone);
-            textViewId.setText(String.valueOf(contract.getId()));
-            textViewName.setText(contract.getName());
-            textViewPhone.setText(contract.getPhoneNumber());
+            // Bind data to the correct IDs from item.xml
+            TextView textViewId = convertView.findViewById(R.id.textViewId);
+            TextView textViewName = convertView.findViewById(R.id.textViewName);
+            TextView textViewPhone = convertView.findViewById(R.id.textViewPhone);
+
+            if (textViewId != null) {
+                textViewId.setText(String.valueOf(contract.getId()));
+            }
+            if (textViewName != null) {
+                textViewName.setText(contract.getName());
+            }
+            if (textViewPhone != null) {
+                textViewPhone.setText(contract.getPhoneNumber());
+            }
         }
-        return view;
+        return convertView;
     }
 }

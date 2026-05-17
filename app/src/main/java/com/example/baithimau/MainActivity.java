@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         add = findViewById(R.id.buttonAdd);
         search = findViewById(R.id.searchText);
         contractDB = new ArrayList<>();
-        adapter = new Adapter(this, android.R.layout.simple_list_item_1, contractDB);
+        adapter = new Adapter(this, R.layout.item, contractDB);
         listView = findViewById(R.id.contractList);
         listView.setAdapter(adapter);
     }

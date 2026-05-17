@@ -83,9 +83,12 @@ public class SQLite extends SQLiteOpenHelper{
         ContentValues value = new ContentValues();
         value.put(COL_Name, contract.getName());
         value.put(COL_PhoneNumber, contract.getPhoneNumber());
-        long result = db.insert(TABLE_NAME, null, value);
+        long id = db.insert(TABLE_NAME, null, value);
+        if (id != -1) {
+            contract.setId((int) id);
+        }
         db.close();
-        return result;
+        return id;
     }
 
 
@@ -117,15 +120,11 @@ public class SQLite extends SQLiteOpenHelper{
         String sql = "SELECT COUNT(*) FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
+        int count = 0;
         if (cursor.moveToFirst()) {
-            int count = cursor.getInt(0);
-            cursor.close();
-            return count;
+            count = cursor.getInt(0);
         }
-        else {
-            cursor.close();
-            return 0;
-        }
-
+        cursor.close();
+        return count;
     }
 }
