@@ -38,6 +38,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        db.OpenDB();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        db.CloseDB();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -46,7 +58,12 @@ public class MainActivity extends AppCompatActivity {
         Init();
         Listen();
         db = new SQLite(MainActivity.this,"CONTRACT_2326",null, 1);
-        db.insert()
+        db.insert(new Contract(1, "Wicky", "091"));
+        db.insert(new Contract(2, "Nguyen Van A", "09175686"));
+        db.insert(new Contract(3, "Nguyen Van B", "091867868"));
+        db.insert(new Contract(4, "Nguyen Van C", "09112313"));
+        db.insert(new Contract(5, "Nguyen Van DE", "091678678"));
+        db.insert(new Contract(6, "Nguyen Van EE", "09135435"));
     }
 
     private void Init() {
