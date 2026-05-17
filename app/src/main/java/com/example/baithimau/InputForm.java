@@ -25,6 +25,8 @@ public class InputForm extends AppCompatActivity {
         name =  findViewById(R.id.editTextName);
         phone = findViewById(R.id.editTextPhone);
 
+
+
         add.setOnClickListener(v -> {
             String contractName = name.getText().toString().trim();
             String contractPhone = phone.getText().toString().trim();

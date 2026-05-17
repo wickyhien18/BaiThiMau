@@ -95,8 +95,9 @@ public class MainActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int index = info.position;
 
+        Contract contract = contractDB.get(index);
+
         if (item.getItemId() == R.id.itemDelete) {
-            Contract contract = contractDB.get(index);
             ConfirmDialog.show(
                     this,
                     "Confirm",
@@ -106,6 +107,13 @@ public class MainActivity extends AppCompatActivity {
                         addContract();
                     }
             );
+            return true;
+        }
+
+        else if (item.getItemId() == R.id.itemEdit) {
+            Intent intent = new Intent(this, InputForm.class);
+            intent.putExtra("editContract", contract);
+            contractPicker.launch(intent);
             return true;
         }
 
