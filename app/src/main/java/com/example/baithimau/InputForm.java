@@ -28,7 +28,7 @@ public class InputForm extends AppCompatActivity {
         name =  findViewById(R.id.editTextName);
         phone = findViewById(R.id.editTextPhone);
 
-        Intent intent = new Intent();
+        Intent intent = getIntent();
         oldContract = (Contract) intent.getSerializableExtra("editContract");
         if (oldContract != null) {
             id.setText(String.valueOf(oldContract.getId()));
@@ -36,6 +36,7 @@ public class InputForm extends AppCompatActivity {
             isUpdate = true;
             name.setText(oldContract.getName());
             phone.setText(oldContract.getPhoneNumber());
+            add.setText("UPDATE");
         }
 
         add.setOnClickListener(v -> {
