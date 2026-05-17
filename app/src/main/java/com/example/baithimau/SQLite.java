@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 
 
@@ -17,9 +19,14 @@ public class SQLite extends SQLiteOpenHelper{
     public static final String COL_Name = "Name";
     public static final String COL_PhoneNumber = "PhoneNumber";
 
-    public SQLite(Context context) {
+    public SQLite(@Nullable Context context) {
         super(context, DbName, null, DBVersion);
     }
+
+    public SQLite(@Nullable Context context,@Nullable String name,@Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
+    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -83,5 +90,28 @@ public class SQLite extends SQLiteOpenHelper{
         long result = db.delete(TABLE_NAME, COL_ID + "=?", new String[]{String.valueOf(contract.getId())});
         db.close();
         return result;
+    }
+
+    public Cursor search(String keyword) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_Name + " LIKE ? OR " + COL_PhoneNumber + " LIKE ?";
+        String[] args = {"%" + keyword + "%", "%" + keyword + "%"};
+        return db.rawQuery(sql, args);
+    }
+
+    public int count() {
+        String sql = "SELECT COUNT(*) FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(0);
+            cursor.close();
+            return count;
+        }
+        else {
+            cursor.close();
+            return 0;
+        }
+
     }
 }

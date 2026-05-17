@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         Init();
         Listen();
+        db = new SQLite(MainActivity.this,"CONTRACT_2326",null, 1);
     }
 
     private void Init() {
