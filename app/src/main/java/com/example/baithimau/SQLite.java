@@ -109,11 +109,23 @@ public class SQLite extends SQLiteOpenHelper{
         return result;
     }
 
-    public Cursor search(String keyword) {
+    public ArrayList<Contract> search(String keyword) {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_Name + " LIKE ? OR " + COL_PhoneNumber + " LIKE ?";
         String[] args = {"%" + keyword + "%", "%" + keyword + "%"};
-        return db.rawQuery(sql, args);
+        Cursor cursor = db.rawQuery(sql, args);
+        ArrayList<Contract> contracts = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String phoneNumber = cursor.getString(2);
+                Contract contract = new Contract(id, name, phoneNumber);
+                contracts.add(contract);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return contracts;
     }
 
     public int count() {
