@@ -27,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 Contract newContract = (Contract) result.getData().getSerializableExtra("newContract");
                 if (newContract != null) {
                     db.insert(newContract);
-                    contractDB.add(newContract);
-                    adapter.notifyDataSetChanged();
+                    addContract();
                 }
             }
         }
@@ -72,9 +71,7 @@ public class MainActivity extends AppCompatActivity {
             db.insert(new Contract(6, "Nguyen Van EE", "09135435"));
         }
 
-        contractDB.clear();
-        contractDB.addAll(db.getAll());
-        adapter.notifyDataSetChanged();
+        addContract();
     }
 
     private void Init() {
@@ -92,5 +89,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, InputForm.class);
             contractPicker.launch(intent);
         });
+    }
+
+    private void addContract() {
+        contractDB.clear();
+        contractDB.addAll(db.getAll());
+        adapter.notifyDataSetChanged();
     }
 }

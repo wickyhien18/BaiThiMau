@@ -43,8 +43,6 @@ public class Contract implements Serializable {
 
     @Override
     public String toString() {
-        return + Id +
-                " - " + Name +
-                " - " + PhoneNumber;
+        return  Id + " - " + Name + " - " + PhoneNumber;
     }
 }
