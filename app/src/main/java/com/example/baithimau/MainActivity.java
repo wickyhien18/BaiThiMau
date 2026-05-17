@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private ArrayList<Contract> contractDB;
     private Adapter adapter;
-    private SQLite db = new SQLite(this);
+    private SQLite db;
 
     private ActivityResultLauncher<Intent> contractPicker = registerForActivityResult(
         new ActivityResultContracts.StartActivityForResult(),
@@ -38,13 +38,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        db.OpenDB();
+        if (db != null) {
+            db.OpenDB();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        db.CloseDB();
+        if (db != null) {
+            db.CloseDB();
+        }
     }
 
     @Override
@@ -55,13 +59,20 @@ public class MainActivity extends AppCompatActivity {
 
         Init();
         Listen();
+
         db = new SQLite(MainActivity.this,"CONTRACT_2326",null, 1);
-        db.insert(new Contract(1, "Wicky", "091"));
-        db.insert(new Contract(2, "Nguyen Van A", "09175686"));
-        db.insert(new Contract(3, "Nguyen Van B", "091867868"));
-        db.insert(new Contract(4, "Nguyen Van C", "09112313"));
-        db.insert(new Contract(5, "Nguyen Van DE", "091678678"));
-        db.insert(new Contract(6, "Nguyen Van EE", "09135435"));
+        db.OpenDB();
+
+        if (db.count() == 0) {
+            db.insert(new Contract(1, "Wicky", "091"));
+            db.insert(new Contract(2, "Nguyen Van A", "09175686"));
+            db.insert(new Contract(3, "Nguyen Van B", "091867868"));
+            db.insert(new Contract(4, "Nguyen Van C", "09112313"));
+            db.insert(new Contract(5, "Nguyen Van DE", "091678678"));
+            db.insert(new Contract(6, "Nguyen Van EE", "09135435"));
+        }
+
+        contractDB.clear();
         contractDB.addAll(db.getAll());
         adapter.notifyDataSetChanged();
     }
@@ -69,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
     private void Init() {
         add = findViewById(R.id.buttonAdd);
         search = findViewById(R.id.searchText);
-        adapter = new Adapter(this, android.R.layout.simple_list_item_1, new ArrayList<>());
+        contractDB = new ArrayList<>();
+        adapter = new Adapter(this, android.R.layout.simple_list_item_1, contractDB);
         listView = findViewById(R.id.contractList);
         listView.setAdapter(adapter);
     }
