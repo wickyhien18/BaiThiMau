@@ -111,7 +111,7 @@ public class SQLite extends SQLiteOpenHelper{
 
     public ArrayList<Contract> search(String keyword) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_Name + " LIKE ? OR " + COL_PhoneNumber + " LIKE ?";
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_Name + " LIKE ? OR " + COL_PhoneNumber + " LIKE ?" + "ORDER BY " + COL_Name;
         String[] args = {"%" + keyword + "%", "%" + keyword + "%"};
         Cursor cursor = db.rawQuery(sql, args);
         ArrayList<Contract> contracts = new ArrayList<>();
