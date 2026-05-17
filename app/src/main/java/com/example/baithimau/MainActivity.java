@@ -1,15 +1,22 @@
 package com.example.baithimau;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -73,8 +80,26 @@ public class MainActivity extends AppCompatActivity {
             db.insert(new Contract(5, "Nguyen Van DE", "091678678"));
             db.insert(new Contract(6, "Nguyen Van EE", "09135435"));
         }
-
         addContract();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        getMenuInflater().inflate(R.menu.delete_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position;
+
+        if (item.getItemId() == R.id.itemDelete) {
+        }
+
+        return true;
+
     }
 
     private void Init() {
@@ -84,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new Adapter(this, R.layout.item, contractDB);
         listView = findViewById(R.id.contractList);
         listView.setAdapter(adapter);
+        registerForContextMenu(listView);
     }
 
 
@@ -115,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.this, contractDB.get(position).toString(), Toast.LENGTH_SHORT).show();
-                return true;
+                return false;
             }
         });
     }
