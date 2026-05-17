@@ -18,6 +18,8 @@ public class SQLite extends SQLiteOpenHelper{
     public static final String COL_ID = "Id";
     public static final String COL_Name = "Name";
     public static final String COL_PhoneNumber = "PhoneNumber";
+    public SQLiteDatabase myDB;
+
 
     public SQLite(@Nullable Context context) {
         super(context, DbName, null, DBVersion);
@@ -42,6 +44,18 @@ public class SQLite extends SQLiteOpenHelper{
         String sql = "DROP TABLE IF EXISTS " + TABLE_NAME;
         db.execSQL(sql);
         onCreate(db);
+    }
+
+    public void OpenDB() {
+        if (myDB == null || !myDB.isOpen()) {
+            myDB = this.getWritableDatabase();
+        }
+    }
+
+    public void CloseDB() {
+        if (myDB != null && myDB.isOpen()) {
+            myDB.close();
+        }
     }
 
     public ArrayList<Contract> getAll() {

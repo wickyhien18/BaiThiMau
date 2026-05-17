@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private ArrayList<Contract> contractDB;
     private Adapter adapter;
-    private SQLite db;
+    private SQLite db = new SQLite(this);
 
     private ActivityResultLauncher<Intent> contractPicker = registerForActivityResult(
         new ActivityResultContracts.StartActivityForResult(),
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         }
     );
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,13 +46,15 @@ public class MainActivity extends AppCompatActivity {
         Init();
         Listen();
         db = new SQLite(MainActivity.this,"CONTRACT_2326",null, 1);
+        db.insert()
     }
 
     private void Init() {
         add = findViewById(R.id.buttonAdd);
         search = findViewById(R.id.searchText);
+        adapter = new Adapter(this, android.R.layout.simple_list_item_1, new ArrayList<>());
         listView = findViewById(R.id.contractList);
-        db = new SQLite(this);
+        listView.setAdapter(adapter);
         contractDB = db.getAll();
         updateContractList();
     }
