@@ -35,8 +35,15 @@ public class MainActivity extends AppCompatActivity {
         result -> {
             if (result.getResultCode() == MainActivity.RESULT_OK && result.getData() != null) {
                 Contract newContract = (Contract) result.getData().getSerializableExtra("newContract");
+
+                boolean isUpdate =
+                        result.getData().getBooleanExtra("isUpdate", false);
+
                 if (newContract != null) {
-                    db.insert(newContract);
+                    if (isUpdate)
+                        db.update(newContract);
+                    else
+                        db.insert(newContract);
                     addContract();
                 }
             }

@@ -12,6 +12,9 @@ public class InputForm extends AppCompatActivity {
 
     private Button add, back;
     private EditText id, name, phone;
+    private boolean isUpdate = false;
+
+    private Contract oldContract;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,15 @@ public class InputForm extends AppCompatActivity {
         name =  findViewById(R.id.editTextName);
         phone = findViewById(R.id.editTextPhone);
 
-
+        Intent intent = new Intent();
+        oldContract = (Contract) intent.getSerializableExtra("editContract");
+        if (oldContract != null) {
+            id.setText(String.valueOf(oldContract.getId()));
+            id.setEnabled(false);
+            isUpdate = true;
+            name.setText(oldContract.getName());
+            phone.setText(oldContract.getPhoneNumber());
+        }
 
         add.setOnClickListener(v -> {
             String contractName = name.getText().toString().trim();
@@ -38,9 +49,10 @@ public class InputForm extends AppCompatActivity {
             }
             else {
                 Contract newContract = new Contract(Integer.parseInt(contractId), contractName, contractPhone);
-                Intent intent = new Intent();
-                intent.putExtra("newContract", newContract);
-                setResult(RESULT_OK, intent);
+                Intent intentResult = new Intent();
+                intentResult.putExtra("newContract", newContract);
+                intentResult.putExtra("isUpdate", isUpdate);
+                setResult(RESULT_OK, intentResult);
                 finish();
             }
         });
