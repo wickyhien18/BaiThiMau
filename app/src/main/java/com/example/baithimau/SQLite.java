@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class SQLite extends SQLiteOpenHelper{
     public static final String DbName = "SqlLite";
-    public static final int DBVersion = 2;
+    public static final int DBVersion = 3;
     public static final String TABLE_NAME = "Contract";
     public static final String COL_ID = "Id";
     public static final String COL_Name = "Name";
@@ -28,13 +28,6 @@ public class SQLite extends SQLiteOpenHelper{
                 COL_Name + " TEXT, " +
                 COL_PhoneNumber + " TEXT)";
         db.execSQL(sql);
-
-        for (int i = 1; i < 7; i++) {
-            ContentValues contract = new ContentValues();
-            contract.put(COL_Name, "Nguyễn Văn " + Character.toString('A' + i));
-            contract.put(COL_PhoneNumber, "098689925"+ i);
-            db.insert(TABLE_NAME, null, contract);
-        }
     }
 
     @Override
@@ -46,7 +39,7 @@ public class SQLite extends SQLiteOpenHelper{
 
     public ArrayList<Contract> getAll() {
         ArrayList<Contract> contracts = new ArrayList<>();
-        String sql = "SELECT * FROM " + TABLE_NAME;
+        String sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COL_Name;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
 

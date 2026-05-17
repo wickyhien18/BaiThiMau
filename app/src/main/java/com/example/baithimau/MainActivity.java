@@ -17,8 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText search;
     private ListView listView;
     private ArrayList<Contract> contractDB;
-    private ArrayList<String> contractList;
-    private ArrayAdapter<String> adapter;
+    private Adapter adapter;
     private SQLite db;
 
     private ActivityResultLauncher<Intent> contractPicker = registerForActivityResult(
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.contractList);
         db = new SQLite(this);
         contractDB = db.getAll();
-        contractList = new ArrayList<>();
         updateContractList();
     }
 
