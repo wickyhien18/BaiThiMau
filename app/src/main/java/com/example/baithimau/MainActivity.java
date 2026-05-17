@@ -96,9 +96,20 @@ public class MainActivity extends AppCompatActivity {
         int index = info.position;
 
         if (item.getItemId() == R.id.itemDelete) {
+            Contract contract = contractDB.get(index);
+            ConfirmDialog.show(
+                    this,
+                    "Confirm",
+                    "Are you sure you want to delete this contract?",
+                    () -> {
+                        db.delete(contract);
+                        addContract();
+                    }
+            );
+            return true;
         }
 
-        return true;
+        return super.onContextItemSelected(item);
 
     }
 
